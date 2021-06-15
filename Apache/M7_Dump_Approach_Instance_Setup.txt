@@ -1,0 +1,123 @@
+Topic:- DUMP Approach Instance setup and Configuration.
+
+Source Server:- From where dump is taken.
+
+Pre-Requisite:- 
+->Extract the MetricStream Folder (having metricstream-installer-app and SYSTEMi).
+->MS-Packages must have binaries for Apache,Tomcat,ActiveMQ,DataRouter and Elasticsearch
+->Database Import and setup is already completed.
+
+Note:- It is not mandatory to extract the folder in the same path as previous instance but it is helpful if we keep the same path.
+(Generally path is like this :- D:\MetricStream)
+
+Steps:-
+1)Open the ms-installer-parameters.properties and edit the following parameters:-
+
+
+a)Database Parameters:-
+
+DatabaseHostName=127.0.0.1    													//change it to your db hostname.
+DbPort=1521                   													//change it to your db port.
+Sid=orcl                      													//change it to your db sid or service_name.
+SchemaName=DEMO               													//change it with new schema that has been created.
+TableSpace_Data=DEMO_DATA     													//change it with your new data tablespace name.
+TableSpace_IDX=DEMO_IDX       													//change it with your new idx tablespace name.
+TableSpace_Idx_Location=E:\\APP\\ORACLEUSER\\ORADATA\\ORCL                      //give the path for datafiles.
+TableSpace_Data_Location=E:\\APP\\ORACLEUSER\\ORADATA\\ORCL						//give the path for datafiles.
+
+
+
+b)Apache Parameters:-
+
+WebServer_HostName=127.0.0.1													//change it with web server hostname. 
+Webserver_Port=5555                                                             //change it with apache port number you want to install.
+SslConfigurationFlag=Yes														//For ssl it should be Yes ,for nonssl make it as No
+ApacheServiceName=DEMOService													//Give the name for your Apache Service.
+
+Note:- You can give the same port number and ApacheServiceName as source server.(Avoid port conflict)
+
+c)Tomcat Parameters:-
+
+HostName=127.0.0.1																//change it to app server hostname.
+HttpPort=5556                                                                   //optional chnage the port as required
+TomcatServiceName=DEMOService													//Give the name for your Tomcat Service.
+Java_Min_HeapSize=1024m														    //Optional (dont change default)
+Java_Max_HeapSize=4096m															//Optional (dont change default)
+
+
+d)Active MQ,Elasticsearch,DataRouter Parameters:-
+ActiveMqHost=localhost															//change it to app server hostname.
+DataRouterHost=localhost														//change it to app server hostname.
+ElasticSearchHost=localhost														//change it to app server hostname.
+EnterpriseName=MetricStream														//change it with your enterprise name.
+
+Save and close the file.
+
+2)Rename the Apache,Tomcat,ActiveMQ,Elasticsearch,datarouter folder.
+
+3)Open CMD as administrator and go to ms-installer.sh or ms-installer.bat location and run the below command:-
+
+ms-installer.bat -s GRC -p <schema_password>
+
+
+4)Config.client.xml Parameters Changes:-
+
+a)<!ENTITY license SYSTEM "file://localhost/E:/MetricStreamM7JBOSS_SP1_P2/SYSTEMi/Systemi/keys/MetricStream_license.xml">
+<!ENTITY systemi_root "E:/MetricStreamM7JBOSS_SP1_P2/SYSTEMi">
+Change MetricStream_license with your enterprise_license and path.
+
+b) <!ENTITY hostname "MSI-L1528">                         					    //Change it with your web server hostname and apache port.
+  <!ENTITY webserverport "9085"> 
+
+c)<PROPERTY NAME="TRANSPORT_ADDRESSES">MSI-L1528:9300</PROPERTY>  				//Change it with your app server hostname.
+
+d)<PROPERTY NAME="DBURL">jdbc/oracle/msi</PROPERTY>                 
+   <PROPERTY NAME="DBUSER">HIM_A_J</PROPERTY>									//Change it with new dburl and schema.
+   
+   
+   
+5)License Keys:-
+Generate license and place it in keys folder.
+
+6)Open the Context.xml and copy paste the password to following 2 places:-
+a)In Config.client :-
+ <!ENTITY dbpasswd "YutzOxPfo1edgQuFzAmPFQ==">
+b)In Database:-
+
+Run the below SQL Query
+--   File Name   :- update_database_details.sql
+--   Purpose     :- Update DB URL in si_ent, si_ent_applications, si_metrics_t and Schema Details
+--   Description :- Script to update db details
+--   Author      :- 
+--   Modified On :- Jul 16, 2013
+-- set feedback off;
+-- set echo off;
+whenever sqlerror continue;
+
+spool update_database_details.log
+define Database_URL = '&database_url';
+define Enterprise_Name = '&Enterprise_Name';
+define Schema_Name = '&schema_name';
+define Encrypted_Pass = '&encrypted_pass';
+
+UPDATE si_ent SET enterprise_name= '&Enterprise_Name';
+UPDATE MS_APPS_MDF_FLOW_XML set ENTERPRISE='&Enterprise_Name';
+UPDATE si_ent SET SYSTEMI_DB_NAME= '&database_url' WHERE enterprise_name = '&Enterprise_Name';
+UPDATE si_ent_applications SET DATABASE_URL= '&database_url' WHERE APPLICATION_ID='100000';
+UPDATE si_ent_applications SET DB_LOGIN= '&schema_name' WHERE APPLICATION_ID='100000';
+UPDATE si_ent_applications SET DB_PASSWORD ='&encrypted_pass' WHERE APPLICATION_ID='100000';
+UPDATE si_metrics_t SET result_database_name='&database_url' WHERE application_id='100000';
+commit;
+
+prompt database details updation Completed.
+
+spool off;
+quit;
+
+  
+  
+
+->Start all the services and work is done.
+
+
+   
