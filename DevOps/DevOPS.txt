@@ -1,0 +1,23 @@
+DEVOPS 
+
+Topics to cover:-
+1)Linux adminstrator
+2)DEVOPS TOOLS
+Git : Version Control System tool
+Jenkins : Continuous Integration tool
+Selenium : Continuous Testing tool
+Puppet, Chef, Ansible : Configuration Management and Deployment tools
+Nagios : Continuous Monitoring tool
+Docker : Containerization tool
+Kubernetes
+
+Read about all these with 2 specialization.
+
+3)DEVOPS Theory how its different from AGILE and SDLC.
+4)OOPS Concept
+5)Database (SQL, Configuration, Types)
+6)Computer Netwroking (GeeksforGeeks)
+7)CV Projects Description
+8)Language Specialization (C++ or Python)
+
+ 

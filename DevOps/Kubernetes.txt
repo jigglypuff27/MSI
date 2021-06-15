@@ -1,0 +1,179 @@
+Kubernetes
+->Kubernetes is an open source container orchestration tool.
+->Developed by google.
+->It helps to manage applications that is made up of multiple containers.
+->It also helps us to manage them in different environments.
+(physical,virtual,cloud)
+
+features 
+->High availability (NO DOWNTIME)
+->scalability (HIGH PERFORMANCE)
+->DR (Backup and restore)
+
+Kubernetes Components:-
+Node and Pod
+
+A phsical or virtual server is a node.
+Pod
+->smallest unit
+->It creates a running environments/layer on top of a container.
+->abstraction over container
+->pod is usually meant to run 1 application per pod.
+
+Kubernetes offers virtual network i.e IP address.(internal ip address not public)
+that means each pod gets its own IP address.
+
+Each pod can communicate to each other using this IP address.
+->New IP address assigned on re-creation.
+
+Service:-
+->permanent IP address.(static)
+->can be attached to each pod.
+->lifecycle of pod and service not linked/connected.
+
+that means even if pod dies service ip address remains.
+
+App should be accessible through browser.
+External Service accessible from outside.
+Internal service not accessible from outside (like db)
+
+Ingress :- 
+Do Forwarding to service.(automatic port in browser like 80 redirection)
+
+ConfigMap :-
+->external configuration of your application
+->like db_url , user, pwd
+->risky in plain text insecure.
+
+Secret:-
+just like configmap
+->used to store data in secret format.
+->base64 encoded.
+->not enabled by default.
+
+Data Storage
+Log data or database data should be persisted long term.
+Volumes:-
+Volumes attaches a physical storage/hardrive to a pod.
+this storage can be on local machine or remote machine.
+
+K8s cluster 
+-> Explicitely it doesn't manage any data persistance.
+so as a kubernetes user you have to take care of data persistance.
+
+
+Replicate everything for high availability.
+Service has 2 functionalities:-
+->Provide permanent IP address
+->Load Balancer.
+
+Define blueprints for pods.:- blueprint is called deployment.
+In practice you will be working on deployment.
+we will create deployments.
+
+DB can't be replicated via Deployments.
+because db has a state they have to get connect to same storage.
+
+So to avoid inconsistency in DB we use a component called StatefulSet.
+mysql, mongodb,elasticsearch.
+
+Kubernetes Architecture:-
+
+A)Worker Server or Node
+->Each node has multiple pod.
+->3 processes must be installed on everynode.
+->Worked node do the actual work.
+
+First process is :-
+A)Container Runtime:- Docker 
+B)Kublet interacts with both the container and node.
+->It start the pod with a container inside.
+->assigning resources from that node to that container.
+C)Kube proxy:- intelligent forwarding logic inside
+->forward the request.
+
+
+How do you interact with this cluster?
+How to
+->Schedule pod?
+->monitor?
+->restart pod?
+->join a new node?
+
+Master Node has 4 processes that control cluster state and working nodes.
+A)API server
+to interact with worker node api server using some client like UI kubernetes dashbaord , CLI like kublets, kubernetes api.
+Its a cluster gateway that gates initial request of any update or queries from cluster.
+->authentication, acts as a gatekeeper.
+
+some request
+|
+api server
+|
+validate request
+|
+other processes like to schedule a pod etc.
+
+1 entrypoint to cluster.
+
+B)Scheduler 
+intelligent way of deciding in which node pod will be schedule.
+ 
+ 
+schedule new pod
+|
+api server
+|
+scheduler
+|
+where to put the pod(Decided by scheduler)
+
+pod start is done by kublet process, scheduler only decide where.
+
+C)Controller Manager
+->when pod dies on any node there must be a way to know to detect and reschedule those pods.
+->detact cluster state change like crashing of a pod.
+->tell scheduler to start that pod.
+
+D)etcd
+->Key value store of a cluster state.
+->cluster brain.
+->every state gets recorded here.
+->no application data stored here.
+
+Example Cluster Set-ups
+
+2 master nodes
+3 worker nodes 
+
+master nodes needs less resources.
+worker nodes needs more resources.
+
+how to add a new master or worker node.
+get a bare server
+install all the master/worker node processes.
+add it to the cluster.
+
+Minikube
+->Used to setup cluster like production environments.
+->master and worker processes run on same node.
+->create a virtual box.
+
+Kubectl(most powerful)
+->CLI tool for kubernetes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,252 @@
+Linux Administrator 
+Linux is based on unix OS.
+Linux is just a kernal not a operating system on its own.(GNU Project)
+Linux(Kernal) + GNU (OS)
+
+Linux Distribututions:-
+A)RED HAT ENTERPRISE Linux(commercial intended for servers and workstations)
+B)FEDORA
+C)DEBIAN
+D)OTHERS
+
+Free Version:- CentOS,Ubuntu, openSUSE,Linux Mint etc
+
+Linux Features:-
+A)Easy updates (Simplified updates for all installed s/w)
+B)Multiple Distribututions
+C)Free Software Licensing
+D)Better Malware Protection 
+E)Access to source code.
+
+Linux Commands:-
+Windows :- DRIVES (C,D,E)
+LINUX :- root Directories
+LINUX provide a CLI to communicate with the OS.
+
+1)pwd (print working directory) it print the current working directory in the terminal.
+2)cd change directory
+3)ls list directory 
+4)/ root directory
+5)clear clear the terminal(not deleted)
+6)cd .. go to previous directory
+7)cd enter directly go to home directory
+8)echo writes its arguments to standard output(echo $x) $ used for variable
+9)su switch to root user 
+10)su username switch to different user.
+11)sudo lets you execute only that command as root user priviledges.
+12)ls [options] [file|directory]
+	->ls path :list of content in that path.
+	->ls -l :gives content (owener settings, permissions, memory size, timestamp)
+	->ls -a :shows hidden directory as well
+	->ls -author
+	->ls -S sort with size
+	->command > file1.txt output of command in txt file1
+	->vi view a file
+	->ls *.html list files with specific extention.
+13)cd / go to root directory
+14)cd 'folder name' if folder name has space.
+15)cat [options] file1 [file2..] working with file.
+	->cat display content of file.
+	->difference between cat and vi :- cat can show content from more than one file whereas vi cant.
+	->cat > file2.txt
+	 hello some text
+	 ctrl+d
+	 :- to create a new text file and enter data in it.
+	->cat file1.txt file2.txt
+    ->cat file1.txt >> file2.txt append content from file1 to file2.
+	->cat -n file1.txt gives line number to all lines.
+	->cat -b gives line number to only non blank line.
+	->cat -s squeeze blank lines into 1.
+	->cat -E $sign after every end of line.
+16)grep :- command is used to find word/string in a text file.
+	->similar to ctrl+f in windows.
+	->grep options file1.txt search word options in a text file.
+	->grep -i options file1.txt search word irrespective of case senstivity.
+	->grep -n options file1.txt list down the line numbers as well.
+	->grep -v options file1.txt gives lines where word is not present.
+	->grep -c options file.txt gives count of matching lines.
+17)sort command is used to sort the result alphabetically or numerically.
+	->sort file1.txt sorts the content of file in alphabetically manner.
+	->sort file1.txt file2.txt 
+	->sort -r file1.txt reverse sort
+	->sort -f file1.txt case insentive order
+	->sort -n file1.txt sort in numerical order.
+18)pipe command | lets you perform two operations in single command.
+	->take output from one command as input to other.
+	->grep himanshu file1.txt file2.txt | sort -r
+19)cp [options] source destination
+	->cp -i interactive mode ask for overwriting.
+	->cp -n do not overwrite the file.
+	->cp -u updates destination file only when source file is different from destination file.
+	->cp -R recursice copy.
+	->cp -v verbose print informative msgs.
+	->cp /home/xyz/file1.txt . copy to current working directory.
+	
+20)mv used to move files and directory
+	->mv -i interactive mode.
+	->mv -u updates the destination file when different from source.
+	->mv -v verbose
+	
+21)mkdir make directory
+	->mkdir create a directory
+	->mkdir -p folder1/folder2/folder3 (create folder1 then folder2 inside folder1 and so on)
+	->mkdir {folder2,folder3,folder4} it will create folders from where command is running.
+	->mkdir -p folder1/{folder2,folder3,folder4} used to create multiple subdirectories inside the new parent directory
+	->mkdir --parents used for same.
+	
+22)rm and rmdir used to remove files and directory.
+	->rmdir directory_name remove a directory
+	->rmdir -p directory_name remove both a parent and child
+	->rmdir -pv with verbose
+	similarly with rm -r removes all files in recursive manner. 
+	->rm -r removes even non empty directory
+	->rm -rp removes non empty directories includind parent and subdirectories.
+	
+23)User Permissions:-
+
+drwxrwxr-x	1 owner usergroup file_size timestamp 
+first one is directory or not (file type)
+first 3 rwx for user (user permissions)
+middle 3 for user group(group permissions)
+last 3 for other permission 
+
+file type 
+- normal file
+d directory
+c character special file
+b binary special file.
+denotions:-
+u- user
+g- group
+o- others
+a- all
+
+24)chmod to change the permissions of files and directories.
+	->chmod g+wx directory_name giving write and execute permission to user group (append)
+	->chmod u=rwx,o-wx filename (setting rwx for user and removing wx from others)
+	
+
+25)chown to change the owner of a file.
+	->chown username filename
+	->chown username:usergroup filename
+
+26)chgrp to change the group ownership of file or directory.
+	->chgrp groupname filename
+	
+27)Linux Repositories
+	->sudo yum install package-name for RHEL
+	->sudo apt-get install package-name for Debian
+	->sudo dnf install package-name for fedora
+	
+sudo gedit .bashrc 
+#set environment variables here.
+
+source .bashrc to sync variables
+
+28)Working with tar files.
+gzip to compress files with .gz format
+gunzip to decompress .gz files
+tar to compress and decompress files with .tar format
+
+	->tar -cvf tar-file-name file-name to compress
+	->tar -xvf tar-file-name to decompress/extract
+	->tar -tvf tar-file-name to view content without extract.
+	
+29)Environment Variables
+they control the behaviour of the software packages install in the linux.
+	->printenv
+	->echo $PATH
+	->echo $HOME
+	->echo $BASH_VERSION
+	->echo $HOSTNAME
+	->echo $USERNAME
+	->echo $LANG
+	
+30)Regular Expressions
+RegEx are used to search through data.
+It can be piped along with 'grep' command to find patterns in txt file.
+
+
+Symbol 		Explanation 	
+	.		Replace any character
+	^		Matches the start of the string
+	$   	Matches the end of the string
+	* 		Matches the preceeding charcter zero or more times
+	?		Matches the preceeding character one or more times
+	()		Groups regular expressions
+	\		Represent special characters
+	
+ 
+	->cat file1.txt | grep -i ^h  starts with h
+	->cat file1.txt | grep -i 'e$' ends with e
+cover this good.
+
+
+31)Processes
+Instance of a program is called a process
+any command given to linux kernal starts a new process.
+there can be multiple process of the same program
+
+process
+foreground processes
+background processes
+
+	->top
+	
+PID ->Process ID
+User ->User Name
+PR ->Priority (-20 to 20)
+NI ->Niceness Value (-20 to 20) (more niceness less prorirty)
+VRT-> Virtual memory
+RES->Physical memory
+SHR->Shared memory
+S->Status
+%CPU
+%MEM
+TIME
+COMMAND
+
+	->ps ux
+	list of process that user has started.
+	->pidof process_name
+	to know process id of a process.
+	
+	
+Creating users:-
+	->sudo useradd user-name //adding a new user
+	->sudo passwd user-name //setting a password for user-name
+	->sudo userdel user-name // deleting a user.
+	
+	->sudo groupadd group-name
+	->sudo groupdel group-name
+	->sudo usermod -g group-name username 
+	
+Secure Shell for Remote Machine Access (SSH)
+
+ifconfig 
+->to know ip address.
+
+sudo ip addr del ip_Address dev eth1
+->delete ip address in both master and slave vm.
+
+sudo ip addr add ip_Address/24 dev eth1 (24 is mask)
+->add ip address to master and slave.
+
+go to home directory
+->sudo gedit /etc/hosts	
+
+do the same for slave vm.
+
+->ssh master
+give password
+
+exit
+->to get out of ssh connection
+
+RSaKEY
+Generated when firewall is present.
+
+Firewall is blocked by dropping the IP tables.
+->service iptables stop //drop ip table
+->sudo chkconfig iptables off  //permanently sisables the ip table.
+ 
